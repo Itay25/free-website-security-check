@@ -1,0 +1,237 @@
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* שמירה על מיקום התוכן כלפי מעלה */
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f2f2f2;
+  padding-top: 60px; /* הגדלת הרווח העליון */
+}
+
+h1 {
+  color: #333;
+  margin: 10px 0;
+}
+p {
+  line-height: 1.6; /* גובה השורה - אפשר לשחק עם המספר */
+}
+
+h3 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #007BFF;
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300px;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#result {
+  font-size: 18px;
+  color: #007BFF;
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: #007BFF;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: left;
+  border-radius: 4px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip:hover {
+  color: #0056b3;
+}
+
+#loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #007BFF;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-top: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* דוח האבטחה */
+#report {
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* התאמה למרווח מהכותרת */
+  width: 80%;
+  max-width: 600px;
+}
+
+#report h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+#report p, #report h4 {
+  font-size: 16px;
+  color: #666;
+  margin: 5px 0;
+}
+
+#safety-level {
+  margin-top: 25px;
+  font-size: 16px;
+}
+
+/* פרסומות */
+#advertisements {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 200px;
+  font-size: 14px;
+  text-align: center;
+}
+
+#advertisements h4 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+#advertisements p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+#advertisements a {
+  text-decoration: none;
+  color: #007BFF;
+  font-weight: bold;
+}
+
+#advertisements a:hover {
+  text-decoration: underline;
+}
+
+/* עיצוב רספונסיבי */
+@media (max-width: 768px) {
+  body {
+      padding: 10px;
+      padding-top: 50px; /* התאמה למיקום */
+  }
+
+  #report {
+      width: 100%;
+      padding: 15px;
+  }
+
+  input[type="text"] {
+      width: 100%;
+  }
+
+  h1 {
+      font-size: 20px;
+  }
+
+  button {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+  }
+
+  .tooltip-text {
+      width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+      font-size: 18px;
+  }
+
+  input[type="text"], button {
+      font-size: 14px;
+      padding: 8px;
+  }
+
+  #advertisements {
+      width: 150px;
+      font-size: 12px;
+  }
+}

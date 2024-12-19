@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Website Security Check</title>
+    <!-- קישור ל-CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css.css') }}">
+    <style>
+        /* עיצוב עבור הסקאלה והמשולש */
+        .scale-container {
+            position: relative;
+            width: 500px;
+            margin: 20px auto;
+        }
+    
+        .scale {
+            background-image: url('{{ url_for('static', filename='scale2.png') }}'); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 100%; /* השתמש ב-100% כדי להימנע מההרחבה מעבר לגבולות */
+            height: 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            margin-left: 0; /* הורד את ה-margin כדי לשמור על המיקום */
+        }
+        
+        .triangle {
+            position: absolute;
+            margin-left: -10px; /* אפשר להתאים את הערך הזה אם צריך */
+            top: 23px; /* מיקום המשולש מעל הסקאלה */
+            left: 0; /* יתעדכן לפי הציון */
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid #00008B; /* כחול כהה */
+            transition: left 1s ease-in-out; /* הוספנו transition כדי להחיל את האנימציה */
+        }   
+        @keyframes moveScale {
+            0% {
+                left: 0; /* התחלה בקצה השמאלי */
+            }
+            50% {
+                left: 50%; /* אמצע הסקאלה */
+            }
+            100% {
+                left: 80%; /* נקודה סופית לדוגמה */
+            }
+        }     
+    
+        .safety-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    
+        /* עיצוב רספונסיבי */
+        @media (max-width: 768px) {
+            .scale-container {
+                width: 90%; /* התאמת הרוחב למסכים קטנים */
+            }
+    
+            .scale {
+                height: 15px; /* גובה נמוך יותר לסקאלה */
+            }
+    
+            .triangle {
+                top: 15px; /* התאם את המיקום לגובה החדש */
+            }
+    
+            .safety-text {
+                font-size: 16px; /* טקסט קטן יותר */
+            }
+        }
+    
+        @media (max-width: 480px) {
+            .scale-container {
+                width: 100%; /* שימוש בכל רוחב המסך */
+                margin: 10px auto; /* הפחתת המרווח */
+            }
+    
+            .scale {
+                height: 12px; /* הקטנת הגובה עוד יותר */
+            }
+    
+            .triangle {
+                top: 12px; /* עדכון נוסף למיקום המשולש */
+            }
+    
+            .safety-text {
+                font-size: 14px; /* גודל קטן לטלפונים */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="advertisements">
+        <h4>Advertisements</h4>
+        <p>Check out our new products</p>
+        <a href="https://www.youtube.com/" target="_blank">Click here!</a>
+    </div>
+
+    <h1>Website Safety & Security Check</h1>
+
+    <!-- טופס בדיקת URL -->
+    <form id="urlForm">
+        <input type="text" id="url" name="url" placeholder="www.google.com">
+        <button type="submit">Check</button>
+    </form>
+
+    <!-- הצגת תוצאה כללית -->
+    <div id="result"></div>
+
+    <!-- דוח מפורט -->
+    <div id="loader" style="display: none;"></div>
+
+    <div id="report" style="display: none;">
+
+        <h3
+        style="
+        text-align: center; 
+        font-size: 28px; 
+        font-weight: bold; 
+        color: black; 
+        border-bottom: 2px solid black; 
+        padding-bottom: 10px; 
+        margin-bottom: 20px;"
+        >
+        Security Report
+    </h3>
+
+
+        <!-- סקאלה ומשולש -->
+        <div class="scale-container">
+            <div class="scale"></div>
+            <div class="triangle" id="triangle"></div>
+            <div id="safety-level" class="safety-text"></div>
+        </div>
+
+        <!-- פירוט נתוני האבטחה -->
+        <p id="ssl-status" >
+            <b>SSL Status:</b> <span id="ssl-info">Valid</span>
+            <span class="tooltip">(?) 
+                <span class="tooltip-text">SSL certificates ensure secure communication between the website and your browser.</span>
+            </span>
+        </p>
+        <p id="hsts-status" >
+            <b>HSTS:</b> <span id="hsts-info">Unknown</span>
+            <span class="tooltip">(?) 
+                <span class="tooltip-text">HSTS (HTTP Strict Transport Security) prevents browsers from accessing the site over insecure connections.</span>
+            </span>
+        </p>
+        <p id="https-redirect-status" >
+            <b>HTTPS Redirect:</b> <span id="https-info">Unknown</span>
+            <span class="tooltip">(?) 
+                <span class="tooltip-text">HTTPS Redirect ensures all traffic is redirected securely over HTTPS instead of HTTP.</span>
+            </span>
+        </p>
+        <p id="safe-browsing-status" >
+            <b>Safe Browsing:</b> <span id="safe-info">Unknown</span>
+            <span class="tooltip">(?) 
+                <span class="tooltip-text">Google Safe Browsing checks if the site is reported for malware, phishing, or unwanted software.</span>
+            </span>
+        </p>
+        <p id="csp_check" >
+            <b>CSP:</b> <span id="csp-info">Unknown</span>
+            <span class="tooltip">(?)
+                <span class="tooltip-text">The CSP (Content Security Policy) header restricts the sources from which content can be loaded, reducing the risk of injecting malicious code.</span>
+            </span>
+        </p>
+        <p id="check_x_frame_options">
+            <b>X-Frame Options:</b> <span id="x_frame_options_info">Unknown</span>
+            <span class="tooltip">(?)
+                <span class="tooltip-text">The X-Frame-Options header prevents a page from being loaded inside an iframe, reducing the risk of clickjacking attacks.</span>
+            </span>
+        </p>
+        <p id="check_x_xss_protection" >
+            <b>X-Xss Protection:</b> <span id="x_xss_protection_info">Unknown</span>
+            <span class="tooltip">(?)
+                <span class="tooltip-text">The X-XSS-Protection header helps protect against XSS (Cross-Site Scripting) attacks by blocking the execution of malicious scripts in the browser.</span>
+            </span>
+        </p>
+    </div>
+
+    <!-- סקריפט -->
+    <script src="{{ url_for('static', filename='script.js.js') }}"></script>
+    <script>
+        
+        async function updateTrianglePosition(data) {
+            const url = document.getElementById('url').value;
+
+            const score = data.total_score;
+            const triangle = document.getElementById("triangle");
+            const scale = document.querySelector(".scale");
+            const scaleWidth = scale.offsetWidth;
+
+            const position = (score / 100) * scaleWidth;  // חישוב המיקום בהתאם לציון
+
+            // לוודא שהמשולש לא יוצא מהסקאלה
+            const triangleLeft = Math.min(Math.max(position - triangle.offsetWidth / 2, 0), scaleWidth - triangle.offsetWidth);
+
+            // עדכון המיקום של המשולש
+            triangle.style.left = `${triangleLeft}px`;
+
+            const safetyLevel = document.getElementById("safety-level");
+            const scoreDisplay = document.getElementById("score");
+            if (score >= 95) {
+                safetyLevel.textContent = "Ultimate Security";
+                safetyLevel.style.color = "darkgreen";
+                safetyLevel.style.fontWeight = "bold";
+            } else if (score >= 90) {
+                safetyLevel.textContent = "Maximum Security";
+                safetyLevel.style.color = "green";
+                safetyLevel.style.fontWeight = "bold";
+            } else if (score >= 85) {
+                safetyLevel.textContent = "Very High Security";
+                safetyLevel.style.color = "forestgreen";
+                safetyLevel.style.fontWeight = "bold";
+            } else if (score >= 80) {
+                safetyLevel.textContent = "High Security";
+                safetyLevel.style.color = "rgb(218, 165, 32)";
+                safetyLevel.style.fontWeight = "bold";
+            } else if (score >= 70) {
+                safetyLevel.textContent = "Above Average Security";
+                safetyLevel.style.color = "yellowgreen";
+                safetyLevel.style.fontWeight = "bold";
+            } else if (score >= 50) {
+                safetyLevel.textContent = "Moderate Security";
+                safetyLevel.style.color = "orange";
+                safetyLevel.style.fontWeight = "bold";
+            } else if (score >= 35) {
+                safetyLevel.textContent = "Low Security";
+                safetyLevel.style.color = "darkorange";
+                safetyLevel.style.fontWeight = "bold";
+            } else {
+                safetyLevel.textContent = "Critical Security";
+                safetyLevel.style.color = "red";
+                safetyLevel.style.fontWeight = "bold";
+            }            
+
+            scoreDisplay.textContent = `Security Score: ${score}`;
+
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("report").style.display = "block";
+        }
+
+        document.getElementById('urlForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            updateTrianglePosition();
+        });
+    </script>
+</body>
+</html>
