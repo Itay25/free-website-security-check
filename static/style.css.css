@@ -60,8 +60,7 @@ button {
   background-color: #007BFF;
   color: #fff;
   border: none;
-  border-radius: 4px;
-  width: 200px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
