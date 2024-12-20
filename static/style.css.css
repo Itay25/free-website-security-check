@@ -10,6 +10,7 @@ body {
   padding: 0; /* מסיר כל פדינג מיותר */
   background-color: #f2f2f2;
   padding-top: 60px; /* הגדלת הרווח העליון */
+  padding-bottom: 50px;
 }
 
 h1 {
@@ -35,11 +36,11 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #333; /* צבע רקע */
-  color: white; /* צבע טקסט */
-  text-align: center; /* ממרכז את הטקסט */
-  padding: 10px 0; /* רווחים פנימיים */
-  font-size: 14px; /* גודל פונט */
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
 }
 @keyframes fadeIn {
   0% {
