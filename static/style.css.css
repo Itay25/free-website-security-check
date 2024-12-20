@@ -41,6 +41,7 @@ footer {
   text-align: center;
   padding: 10px 0;
   font-size: 14px;
+  z-index: 10; /* לוודא שה-footer יהיה מעל התוכן */
 }
 @keyframes fadeIn {
   0% {
@@ -212,6 +213,7 @@ button:hover {
   body {
       padding: 10px;
       padding-top: 50px; /* התאמה למיקום */
+      margin-bottom: 50px;
   }
 
   #report {
