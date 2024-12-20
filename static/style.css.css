@@ -7,6 +7,7 @@ body {
   justify-content: flex-start; /* שמירה על מיקום התוכן כלפי מעלה */
   min-height: 100vh;
   margin: 0;
+  padding: 0; /* מסיר כל פדינג מיותר */
   background-color: #f2f2f2;
   padding-top: 60px; /* הגדלת הרווח העליון */
 }
@@ -42,13 +43,11 @@ h3 {
 }
 
 form {
-  
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 10px; /* יוצר מרווח בין השדה לכפתור */
-  max-width: 200px; /* אפשר להגדיר רוחב כולל */
-  margin: auto;
+  gap: 10px; /* שומר על מרווח בין האלמנטים */
+  margin: 0 auto; /* ממרכז את הטופס אופקית */
+  width: fit-content; /* מתאים את הרוחב לטופס בלבד */
 }
 
 input[type="text"],
@@ -56,8 +55,8 @@ button {
   padding: 10px;
   font-size: 16px;
   border-radius: 4px;
-  width: 100%; /* מבטיח שהם יהיו באותו רוחב */
-  box-sizing: border-box; /* לוקח בחשבון את הפדינג בתוך הרוחב */
+  width: 100%; /* מבטיח ששניהם יהיו באותו רוחב */
+  box-sizing: border-box; /* מבטיח שהרוחב כולל את הפדינג */
 }
 
 input[type="text"] {
